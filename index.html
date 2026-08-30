@@ -20,7 +20,7 @@ label{display:block;font-weight:700;margin:13px 0 7px;font-size:14px}
 input{width:100%;padding:14px;border:1px solid #d9dfe8;border-radius:11px;outline:none}
 input:focus{border-color:#1677ff;box-shadow:0 0 0 3px rgba(22,119,255,.10)}
 .login-btn{width:100%;padding:14px;margin-top:20px;border:0;border-radius:11px;background:#1677ff;color:#fff;font-weight:800;cursor:pointer}
-.message{min-height:20px;text-align:center;margin-top:12px;font-size:13px;color:#d33}
+.message{min-height:20px;text-align:center;margin-top:12px;font-size:13px;color:#d33}.forgot-wrap{text-align:right;margin-top:10px}.forgot-btn{border:0;background:transparent;color:#176fe5;font-size:13px;font-weight:700;cursor:pointer;padding:3px}.forgot-btn:hover{text-decoration:underline}
 .dashboard{min-height:100vh}.topbar{margin:8px;border:1px solid #dfe5ee;border-radius:20px;background:#fff;min-height:125px;display:grid;grid-template-columns:65px 1fr 65px;align-items:center;padding:8px 18px;box-shadow:0 3px 14px rgba(20,35,60,.05)}
 .menu{font-size:38px;text-align:center;cursor:pointer}.top-logo{width:310px;max-width:80%;height:110px;object-fit:contain;display:block;margin:auto}
 .bell{font-size:38px;text-align:center;position:relative;cursor:pointer}.red-dot{position:absolute;width:13px;height:13px;border-radius:50%;background:#e53935;top:2px;right:4px;border:2px solid #fff}
@@ -60,12 +60,14 @@ input:focus{border-color:#1677ff;box-shadow:0 0 0 3px rgba(22,119,255,.10)}
 <label>User ID</label><input id="memberIdInput" type="text" placeholder="Enter your User ID" autocomplete="username">
 <label>Password</label><input id="memberPassword" type="password" placeholder="Enter your password" autocomplete="current-password">
 <button class="login-btn" onclick="memberLogin()">Member Login</button>
+<div class="forgot-wrap"><button class="forgot-btn" type="button" onclick="forgotPassword()">Forgot Password?</button></div>
 </div>
 <div id="adminForm" class="hidden">
 <h2 class="form-title">Admin Login</h2>
 <label>Email</label><input id="adminEmail" type="email" placeholder="Enter admin email" autocomplete="username">
 <label>Password</label><input id="adminPassword" type="password" placeholder="Enter admin password" autocomplete="current-password">
 <button class="login-btn" onclick="adminLogin()">Admin Login</button>
+<div class="forgot-wrap"><button class="forgot-btn" type="button" onclick="forgotPassword()">Forgot Password?</button></div>
 </div>
 <div class="message" id="loginMessage"></div>
 </div>
@@ -135,11 +137,32 @@ async function getUserProfile(userId){
  return data;
 }
 
+async function forgotPassword(){
+ const msg=document.getElementById("loginMessage");
+ msg.textContent="";
+ let email=document.getElementById("adminEmail").value.trim();
+ if(!email) email=prompt("Enter your registered email address:");
+ if(!email){msg.textContent="Please enter your registered email.";return;}
+ try{
+   const {error}=await supabaseClient.auth.resetPasswordForEmail(email.trim(),{
+     redirectTo:window.location.origin + window.location.pathname
+   });
+   if(error){msg.textContent=error.message;return;}
+   msg.style.color="#148043";
+   msg.textContent="Password reset link has been sent to your registered email.";
+ }catch(e){
+   console.error(e);
+   msg.style.color="#d33";
+   msg.textContent="Unable to send reset link. Please try again.";
+ }
+}
+
 async function adminLogin(){
  const email=document.getElementById("adminEmail").value.trim();
  const password=document.getElementById("adminPassword").value;
  const msg=document.getElementById("loginMessage");
  msg.textContent="";
+ msg.style.color="#d33";
  if(!email||!password){msg.textContent="Please enter email and password.";return;}
 
  const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
@@ -166,6 +189,7 @@ async function memberLogin(){
  const password=document.getElementById("memberPassword").value;
  const msg=document.getElementById("loginMessage");
  msg.textContent="";
+ msg.style.color="#d33";
  if(!memberCode||!password){msg.textContent="Please enter User ID and password.";return;}
  msg.textContent="Member login interface is ready. Secure User ID → Auth mapping will be connected next.";
 }
