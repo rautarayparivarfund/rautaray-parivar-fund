@@ -39,7 +39,7 @@ input:focus{border-color:#1677ff;box-shadow:0 0 0 3px rgba(22,119,255,.10)}
 .bottom-nav{position:sticky;bottom:0;margin-top:15px;background:#fff;border:1px solid #e0e6ef;border-radius:18px;padding:9px;display:grid;grid-template-columns:repeat(6,1fr);gap:5px}
 .nav-btn{border:0;background:transparent;padding:8px 2px;font-size:11px;color:#263247;cursor:pointer}.nav-btn span{display:block;font-size:22px;margin-bottom:3px}.nav-btn.active{color:#176fe5;font-weight:800}
 .sidebar{position:fixed;inset:0 auto 0 0;width:280px;background:#fff;box-shadow:8px 0 30px rgba(0,0,0,.12);z-index:20;padding:22px;transform:translateX(-105%);transition:.25s}
-.sidebar.open{transform:translateX(0)}.side-head{font-weight:900;font-size:17px;margin-bottom:18px}.side-item{padding:13px 8px;}.side-item#sideAdmin{display:none}border-bottom:1px solid #edf0f4;font-weight:700}
+.sidebar.open{transform:translateX(0)}.side-head{font-weight:900;font-size:17px;margin-bottom:18px}.side-item{padding:13px 8px;}.side-item#sideAdmin{display:none;border-bottom:1px solid #edf0f4;font-weight:700}
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.25);z-index:19;display:none}.overlay.show{display:block}
 @media(max-width:800px){.topbar{min-height:105px;grid-template-columns:50px 1fr 50px;padding:6px 8px}.top-logo{height:92px}.menu,.bell{font-size:31px}.welcome{padding:20px;gap:15px}.avatar{width:88px;height:88px;font-size:47px}.name{font-size:26px}.member-id{font-size:15px}.grid{grid-template-columns:1fr 1fr}.quick-grid{grid-template-columns:repeat(3,1fr)}.admin-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:500px){.login-card{padding:19px;border-radius:20px}.login-logo{height:145px}.login-title{font-size:23px}.main{padding:0 7px 20px}.topbar{margin:6px;border-radius:15px;min-height:92px}.top-logo{height:80px}.welcome{padding:15px;gap:10px}.avatar{width:64px;height:64px;font-size:34px}.hello{font-size:13px}.name{font-size:19px;margin-bottom:6px}.member-id{font-size:10px;padding:6px 8px}.admin-badge{font-size:8px;padding:5px 7px;margin-top:4px}.grid{gap:8px}.card{padding:12px}.value{font-size:20px}.quick-grid{gap:6px}.quick-btn{padding:9px 3px}.quick-icon{width:42px;height:42px;font-size:22px}.bottom-nav{gap:0;padding:6px 2px}.nav-btn{font-size:9px}.nav-btn span{font-size:20px}}
@@ -128,7 +128,7 @@ function setRole(role){
 async function getUserProfile(userId){
  const {data,error}=await supabaseClient
    .from("profiles")
-   .select("full_name,role,is_active,admin_access")
+   .select("full_name,role,admin_access")
    .eq("id",userId)
    .maybeSingle();
  if(error) throw error;
@@ -147,7 +147,7 @@ async function adminLogin(){
 
  try{
    const profile=await getUserProfile(data.user.id);
-   const allowed=profile && profile.role==="admin" && profile.admin_access===true && profile.is_active!==false;
+   const allowed=profile && profile.role==="admin" && profile.admin_access===true;
    if(!allowed){
      await supabaseClient.auth.signOut();
      msg.textContent="Admin access denied. This account is not authorized.";
@@ -173,13 +173,7 @@ async function memberLogin(){
 async function loadDashboard(user,profileOverride=null){
  try{
    const p=profileOverride || await getUserProfile(user.id);
-   if(p && p.is_active===false){
-     await supabaseClient.auth.signOut();
-     document.getElementById("loginMessage").textContent="Your account is inactive. Please contact the administrator.";
-     return false;
-   }
-
-   document.getElementById("loginPage").classList.add("hidden");
+      document.getElementById("loginPage").classList.add("hidden");
    document.getElementById("dashboard").classList.remove("hidden");
    document.getElementById("dashName").textContent=p?.full_name||user.email||"Member";
 
