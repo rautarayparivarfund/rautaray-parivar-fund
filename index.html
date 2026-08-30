@@ -27,19 +27,19 @@ input:focus{border-color:#1677ff;box-shadow:0 0 0 3px rgba(22,119,255,.10)}
 .main{max-width:1150px;margin:auto;padding:0 12px 30px}.welcome{border:1px solid #dfe5ee;border-radius:20px;background:linear-gradient(100deg,#fff,#f2f7ff);padding:25px 35px;display:flex;align-items:center;gap:23px}
 .avatar{width:108px;height:108px;border-radius:50%;background:#e8f2ff;border:2px solid #b9d4ff;display:grid;place-items:center;font-size:57px;flex:none}
 .hello{font-size:19px}.name{font-size:32px;font-weight:800;margin:3px 0 10px}.member-id{display:inline-block;background:#eaf3ff;border:1px solid #b8d4ff;color:#154f9c;padding:9px 16px;border-radius:11px;font-size:18px;font-weight:700}
-.admin-badge{margin-left:auto;align-self:flex-start;margin-top:14px;border:1px solid #a8e0bd;background:#effaf3;color:#148043;border-radius:9px;padding:7px 12px;font-size:11px;font-weight:900}
+.admin-badge{display:none;margin-left:auto;align-self:flex-start;margin-top:14px;border:1px solid #a8e0bd;background:#effaf3;color:#148043;border-radius:9px;padding:7px 12px;font-size:11px;font-weight:900}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:15px}.card{background:#fff;border:1px solid #e1e7ef;border-radius:16px;padding:17px;box-shadow:0 4px 15px rgba(20,35,60,.04)}
 .card-icon{font-size:24px}.label{font-size:12px;color:#748096;margin-top:8px}.value{font-size:27px;font-weight:900;margin-top:5px}.status{font-size:11px;font-weight:800;margin-top:5px}
 .green{color:#148043}.orange{color:#b56b00}.blue{color:#176fe5}.purple{color:#6f3bb3}.teal{color:#0c8f96}.pink{color:#e62f62}
 .quick{margin-top:15px}.quick h2{font-size:18px}.quick-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:10px}
 .quick-btn{border:1px solid #e1e7ef;background:#fff;border-radius:13px;padding:12px 7px;text-align:center;cursor:pointer}.quick-icon{width:48px;height:48px;border-radius:11px;margin:0 auto 9px;display:grid;place-items:center;font-size:25px;background:#eef4ff}
 .quick-btn b{font-size:12px}.latest{margin-top:15px}.latest-head{display:flex;justify-content:space-between;align-items:center}.latest-link{color:#176fe5;font-weight:800;font-size:13px}
-.row{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid #edf0f4;font-size:13px}.admin-panel{margin-top:15px;border:1px solid #cfe8d8;border-radius:16px;background:#fff;padding:17px}
+.row{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid #edf0f4;font-size:13px}.admin-panel{display:none;margin-top:15px;border:1px solid #cfe8d8;border-radius:16px;background:#fff;padding:17px}
 .admin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:10px}.admin-item{padding:12px;border:1px solid #e1e7ef;border-radius:10px;font-weight:800;font-size:12px}
 .bottom-nav{position:sticky;bottom:0;margin-top:15px;background:#fff;border:1px solid #e0e6ef;border-radius:18px;padding:9px;display:grid;grid-template-columns:repeat(6,1fr);gap:5px}
 .nav-btn{border:0;background:transparent;padding:8px 2px;font-size:11px;color:#263247;cursor:pointer}.nav-btn span{display:block;font-size:22px;margin-bottom:3px}.nav-btn.active{color:#176fe5;font-weight:800}
 .sidebar{position:fixed;inset:0 auto 0 0;width:280px;background:#fff;box-shadow:8px 0 30px rgba(0,0,0,.12);z-index:20;padding:22px;transform:translateX(-105%);transition:.25s}
-.sidebar.open{transform:translateX(0)}.side-head{font-weight:900;font-size:17px;margin-bottom:18px}.side-item{padding:13px 8px;border-bottom:1px solid #edf0f4;font-weight:700}
+.sidebar.open{transform:translateX(0)}.side-head{font-weight:900;font-size:17px;margin-bottom:18px}.side-item{padding:13px 8px;}.side-item#sideAdmin{display:none}border-bottom:1px solid #edf0f4;font-weight:700}
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.25);z-index:19;display:none}.overlay.show{display:block}
 @media(max-width:800px){.topbar{min-height:105px;grid-template-columns:50px 1fr 50px;padding:6px 8px}.top-logo{height:92px}.menu,.bell{font-size:31px}.welcome{padding:20px;gap:15px}.avatar{width:88px;height:88px;font-size:47px}.name{font-size:26px}.member-id{font-size:15px}.grid{grid-template-columns:1fr 1fr}.quick-grid{grid-template-columns:repeat(3,1fr)}.admin-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:500px){.login-card{padding:19px;border-radius:20px}.login-logo{height:145px}.login-title{font-size:23px}.main{padding:0 7px 20px}.topbar{margin:6px;border-radius:15px;min-height:92px}.top-logo{height:80px}.welcome{padding:15px;gap:10px}.avatar{width:64px;height:64px;font-size:34px}.hello{font-size:13px}.name{font-size:19px;margin-bottom:6px}.member-id{font-size:10px;padding:6px 8px}.admin-badge{font-size:8px;padding:5px 7px;margin-top:4px}.grid{gap:8px}.card{padding:12px}.value{font-size:20px}.quick-grid{gap:6px}.quick-btn{padding:9px 3px}.quick-icon{width:42px;height:42px;font-size:22px}.bottom-nav{gap:0;padding:6px 2px}.nav-btn{font-size:9px}.nav-btn span{font-size:20px}}
@@ -125,30 +125,75 @@ function setRole(role){
  document.getElementById("adminForm").classList.toggle("hidden",role!=="admin");
  document.getElementById("loginMessage").textContent="";
 }
+async function getUserProfile(userId){
+ const {data,error}=await supabaseClient
+   .from("profiles")
+   .select("full_name,role,is_active,admin_access")
+   .eq("id",userId)
+   .maybeSingle();
+ if(error) throw error;
+ return data;
+}
+
 async function adminLogin(){
- const email=document.getElementById("adminEmail").value.trim(), password=document.getElementById("adminPassword").value, msg=document.getElementById("loginMessage");
+ const email=document.getElementById("adminEmail").value.trim();
+ const password=document.getElementById("adminPassword").value;
+ const msg=document.getElementById("loginMessage");
  msg.textContent="";
  if(!email||!password){msg.textContent="Please enter email and password.";return;}
+
  const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
  if(error){msg.textContent=error.message;return;}
- await loadDashboard(data.user);
+
+ try{
+   const profile=await getUserProfile(data.user.id);
+   const allowed=profile && profile.role==="admin" && profile.admin_access===true && profile.is_active!==false;
+   if(!allowed){
+     await supabaseClient.auth.signOut();
+     msg.textContent="Admin access denied. This account is not authorized.";
+     return;
+   }
+   await loadDashboard(data.user,profile);
+ }catch(e){
+   await supabaseClient.auth.signOut();
+   msg.textContent="Unable to verify admin access. Please try again.";
+   console.error(e);
+ }
 }
+
 async function memberLogin(){
- const memberCode=document.getElementById("memberIdInput").value.trim(), password=document.getElementById("memberPassword").value, msg=document.getElementById("loginMessage");
+ const memberCode=document.getElementById("memberIdInput").value.trim();
+ const password=document.getElementById("memberPassword").value;
+ const msg=document.getElementById("loginMessage");
  msg.textContent="";
  if(!memberCode||!password){msg.textContent="Please enter User ID and password.";return;}
  msg.textContent="Member login interface is ready. Secure User ID → Auth mapping will be connected next.";
 }
-async function loadDashboard(user){
- document.getElementById("loginPage").classList.add("hidden");
- document.getElementById("dashboard").classList.remove("hidden");
- const {data:profile}=await supabaseClient.from("profiles").select("full_name,role,is_active").eq("id",user.id).maybeSingle();
- const p=profile||{full_name:user.email||"Member",role:"member",is_active:true};
- document.getElementById("dashName").textContent=p.full_name||user.email||"Member";
- const isAdmin=p.role==="admin";
- document.getElementById("adminBadge").style.display=isAdmin?"block":"none";
- document.getElementById("adminPanel").style.display=isAdmin?"block":"none";
- document.getElementById("sideAdmin").style.display=isAdmin?"block":"none";
+
+async function loadDashboard(user,profileOverride=null){
+ try{
+   const p=profileOverride || await getUserProfile(user.id);
+   if(p && p.is_active===false){
+     await supabaseClient.auth.signOut();
+     document.getElementById("loginMessage").textContent="Your account is inactive. Please contact the administrator.";
+     return false;
+   }
+
+   document.getElementById("loginPage").classList.add("hidden");
+   document.getElementById("dashboard").classList.remove("hidden");
+   document.getElementById("dashName").textContent=p?.full_name||user.email||"Member";
+
+   const isAdmin=p?.role==="admin" && p?.admin_access===true;
+   document.getElementById("adminBadge").style.display=isAdmin?"block":"none";
+   document.getElementById("adminPanel").style.display=isAdmin?"block":"none";
+   document.getElementById("sideAdmin").style.display=isAdmin?"block":"none";
+   return true;
+ }catch(e){
+   console.error(e);
+   await supabaseClient.auth.signOut();
+   document.getElementById("loginMessage").textContent="Unable to load your account. Please try again.";
+   return false;
+ }
 }
 async function logout(){
  await supabaseClient.auth.signOut();closeMenu();
@@ -159,7 +204,22 @@ async function logout(){
 }
 function openMenu(){document.getElementById("sidebar").classList.add("open");document.getElementById("overlay").classList.add("show")}
 function closeMenu(){document.getElementById("sidebar").classList.remove("open");document.getElementById("overlay").classList.remove("show")}
-async function checkSession(){const {data}=await supabaseClient.auth.getSession();if(data.session)await loadDashboard(data.session.user)}
+async function checkSession(){
+ const {data}=await supabaseClient.auth.getSession();
+ if(!data.session)return;
+ const user=data.session.user;
+ try{
+   const profile=await getUserProfile(user.id);
+   if(profile?.role==="admin" && profile?.admin_access!==true){
+     await supabaseClient.auth.signOut();
+     return;
+   }
+   await loadDashboard(user,profile);
+ }catch(e){
+   console.error(e);
+   await supabaseClient.auth.signOut();
+ }
+}
 checkSession();
 </script>
 </body></html>
