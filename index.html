@@ -143,14 +143,20 @@ async function testSupabaseConnection(){
  msg.style.color="#d33";
  msg.textContent="Checking secure connection…";
  try{
-   const {error}=await supabaseClient.auth.getSession();
-   if(error) throw error;
+   // getSession() can succeed from local storage without proving that the
+   // browser can reach Supabase. Hit the public Auth settings endpoint too.
+   const res=await fetch(SUPABASE_URL + "/auth/v1/settings",{
+     method:"GET",
+     headers:{apikey:SUPABASE_PUBLISHABLE_KEY}
+   });
+   if(!res.ok) throw new Error("Supabase Auth HTTP " + res.status);
+   await supabaseClient.auth.getSession();
    msg.style.color="#148043";
    msg.textContent="Supabase connection is working. You can login now.";
  }catch(e){
-   console.error(e);
+   console.error("Supabase connection test:",e);
    msg.style.color="#d33";
-   msg.textContent="Supabase connection failed. If you see DNS_PROBE_FINISHED_NXDOMAIN or Failed to fetch, switch network (Wi‑Fi/another SIM) or use a VPN, then test again.";
+   msg.textContent="Supabase connection failed: " + (e?.message || "Unable to reach Supabase.");
  }
 }
 
@@ -162,20 +168,31 @@ async function forgotPassword(){
  if(loginRole==="admin") email=document.getElementById("adminEmail").value.trim();
  if(!email) email=prompt("Enter your registered email address:");
  if(!email){msg.textContent="Please enter your registered email.";return;}
- try{
-   const {error}=await supabaseClient.auth.resetPasswordForEmail(email.trim(),{
-     redirectTo:window.location.origin + window.location.pathname
-   });
-   if(error) throw error;
-   msg.style.color="#148043";
-   msg.textContent="Password reset link has been sent to your registered email.";
- }catch(e){
-   console.error(e);
-   msg.style.color="#d33";
-   msg.textContent=(e && /fetch|network|dns|failed/i.test(e.message||""))
-     ? "Supabase connection failed. Please switch network/Wi‑Fi or use a VPN and try again."
-     : (e.message || "Unable to send reset link. Please try again.");
+ email=email.trim();
+ if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+   msg.textContent="Please enter a valid registered email address.";
+   return;
  }
+ msg.style.color="#176fe5";
+ msg.textContent="Sending password reset link…";
+ const redirectTo="https://rautarayparivarfund.github.io/rautaray-parivar-fund/";
+ let lastError=null;
+ for(let attempt=1;attempt<=3;attempt++){
+   try{
+     const {error}=await supabaseClient.auth.resetPasswordForEmail(email,{redirectTo});
+     if(error) throw error;
+     msg.style.color="#148043";
+     msg.textContent="Password reset link has been sent to your registered email.";
+     return;
+   }catch(e){
+     lastError=e;
+     console.error("Password reset attempt "+attempt+":",e);
+     if(attempt<3) await new Promise(r=>setTimeout(r,1000*attempt));
+   }
+ }
+ msg.style.color="#d33";
+ const detail=lastError?.message || "Unable to send reset link.";
+ msg.textContent="Password reset failed: " + detail;
 }
 
 async function adminLogin(){
