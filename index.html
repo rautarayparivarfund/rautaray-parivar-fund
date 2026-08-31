@@ -70,6 +70,7 @@ input:focus{border-color:#1677ff;box-shadow:0 0 0 3px rgba(22,119,255,.10)}
 <div class="forgot-wrap"><button class="forgot-btn" type="button" onclick="forgotPassword()">Forgot Password?</button></div>
 </div>
 <div class="message" id="loginMessage"></div>
+<div style="text-align:center;margin-top:10px"><button type="button" class="forgot-btn" onclick="testSupabaseConnection()">Test Connection</button></div>
 </div>
 </section>
 
@@ -137,23 +138,43 @@ async function getUserProfile(userId){
  return data;
 }
 
+async function testSupabaseConnection(){
+ const msg=document.getElementById("loginMessage");
+ msg.style.color="#d33";
+ msg.textContent="Checking secure connection…";
+ try{
+   const {error}=await supabaseClient.auth.getSession();
+   if(error) throw error;
+   msg.style.color="#148043";
+   msg.textContent="Supabase connection is working. You can login now.";
+ }catch(e){
+   console.error(e);
+   msg.style.color="#d33";
+   msg.textContent="Supabase connection failed. If you see DNS_PROBE_FINISHED_NXDOMAIN or Failed to fetch, switch network (Wi‑Fi/another SIM) or use a VPN, then test again.";
+ }
+}
+
 async function forgotPassword(){
  const msg=document.getElementById("loginMessage");
  msg.textContent="";
- let email=document.getElementById("adminEmail").value.trim();
+ msg.style.color="#d33";
+ let email="";
+ if(loginRole==="admin") email=document.getElementById("adminEmail").value.trim();
  if(!email) email=prompt("Enter your registered email address:");
  if(!email){msg.textContent="Please enter your registered email.";return;}
  try{
    const {error}=await supabaseClient.auth.resetPasswordForEmail(email.trim(),{
      redirectTo:window.location.origin + window.location.pathname
    });
-   if(error){msg.textContent=error.message;return;}
+   if(error) throw error;
    msg.style.color="#148043";
    msg.textContent="Password reset link has been sent to your registered email.";
  }catch(e){
    console.error(e);
    msg.style.color="#d33";
-   msg.textContent="Unable to send reset link. Please try again.";
+   msg.textContent=(e && /fetch|network|dns|failed/i.test(e.message||""))
+     ? "Supabase connection failed. Please switch network/Wi‑Fi or use a VPN and try again."
+     : (e.message || "Unable to send reset link. Please try again.");
  }
 }
 
@@ -191,7 +212,7 @@ async function memberLogin(){
  msg.textContent="";
  msg.style.color="#d33";
  if(!memberCode||!password){msg.textContent="Please enter User ID and password.";return;}
- msg.textContent="Member login interface is ready. Secure User ID → Auth mapping will be connected next.";
+ msg.textContent="Member authentication is not linked yet. First connect each Member ID to its Supabase Auth account; then this button will login securely.";
 }
 
 async function loadDashboard(user,profileOverride=null){
